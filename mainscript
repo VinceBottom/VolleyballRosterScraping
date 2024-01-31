@@ -1,0 +1,42 @@
+from requests import get
+import pandas as pd
+import os
+import string
+import os
+import re
+os.chdir("C:\\Users\\Vince\\Downloads")
+from playwright.sync_api import sync_playwright
+from bs4 import BeautifulSoup
+##declare user agent
+with sync_playwright() as p:
+    #for browser_type in [p.chromium, p.firefox, p.webkit]:
+    for browser_type in [p.firefox]:
+        browser = browser_type.launch(headless=False)
+        page = browser.new_page()
+        page.goto('https://pvf.volleystation.com/teams/2104831-LAV/')
+        soup = BeautifulSoup(page.content())
+        browser.close()
+# str_soup = str(soup)
+# f = open("viberostersoup.txt", "w")
+# f.write(str_soup)
+# f.close()
+names = soup.find_all('div', class_='text-name')
+print(len(names))
+positions = soup.find_all('div', class_='text-position')
+print(len(positions))
+length = len(names)
+count = 0
+f = open("furyroster.csv", "a")
+f.write("Name,Position,Team" + '\n')
+f.close()
+for x in range(length):
+    current_name = names[count].text
+    current_name = current_name.replace('\n', '')
+    current_name = current_name.replace(' ', '')
+    current_name = re.sub(r"(\w)([A-Z])", r"\1 \2", current_name)
+    current_position = positions[count].text
+    current_position = current_position.title()
+    f = open("viberoster.txt", "a")
+    f.write(str(current_name) + ',' + str(current_position) + ',' + 'Vegas Thrill,' + '\n')
+    f.close()
+    count += 1
