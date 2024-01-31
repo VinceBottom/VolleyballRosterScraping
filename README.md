@@ -1,5 +1,5 @@
 # VolleyballRosterScraping
---A Python project built from Playwright and BeautifulSoup to scrape volleyball roster data--
+A Python project built from Playwright and BeautifulSoup to scrape volleyball roster data
 
 The code will open the link specified, pull player names and positions, and then write that information to a csv file with their team name.
 
